@@ -1,211 +1,169 @@
-<h1 align="center">MCP-Mem0: Long-Term Memory for AI Agents</h1>
-
 <p align="center">
-  <img src="public/Mem0AndMCP.png" alt="Mem0 and MCP Integration" width="600">
+  <a href="https://github.com/mem0ai/mem0">
+    <img src="docs/images/banner-sm.png" width="800px" alt="Mem0 - The Memory Layer for Personalized AI">
+  </a>
+</p>
+<p align="center" style="display: flex; justify-content: center; gap: 20px; align-items: center;">
+  <a href="https://trendshift.io/repositories/11194" target="blank">
+    <img src="https://trendshift.io/api/badge/repositories/11194" alt="mem0ai%2Fmem0 | Trendshift" width="250" height="55"/>
+  </a>
 </p>
 
-A template implementation of the [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server integrated with [Mem0](https://mem0.ai) for providing AI agents with persistent memory capabilities.
+<p align="center">
+  <a href="https://mem0.ai">Learn more</a>
+  ·
+  <a href="https://mem0.dev/DiG">Join Discord</a>
+  ·
+  <a href="https://mem0.dev/demo">Demo</a>
+  ·
+  <a href="https://mem0.dev/openmemory">OpenMemory</a>
+</p>
 
-Use this as a reference point to build your MCP servers yourself, or give this as an example to an AI coding assistant and tell it to follow this example for structure and code correctness!
+<p align="center">
+  <a href="https://mem0.dev/DiG">
+    <img src="https://dcbadge.vercel.app/api/server/6PzXDgEjG5?style=flat" alt="Mem0 Discord">
+  </a>
+  <a href="https://pepy.tech/project/mem0ai">
+    <img src="https://img.shields.io/pypi/dm/mem0ai" alt="Mem0 PyPI - Downloads">
+  </a>
+  <a href="https://github.com/mem0ai/mem0">
+    <img src="https://img.shields.io/github/commit-activity/m/mem0ai/mem0?style=flat-square" alt="GitHub commit activity">
+  </a>
+  <a href="https://pypi.org/project/mem0ai" target="blank">
+    <img src="https://img.shields.io/pypi/v/mem0ai?color=%2334D058&label=pypi%20package" alt="Package version">
+  </a>
+  <a href="https://www.npmjs.com/package/mem0ai" target="blank">
+    <img src="https://img.shields.io/npm/v/mem0ai" alt="Npm package">
+  </a>
+  <a href="https://www.ycombinator.com/companies/mem0">
+    <img src="https://img.shields.io/badge/Y%20Combinator-S24-orange?style=flat-square" alt="Y Combinator S24">
+  </a>
+</p>
 
-## Overview
+<p align="center">
+  <a href="https://mem0.ai/research"><strong>📄 Building Production-Ready AI Agents with Scalable Long-Term Memory →</strong></a>
+</p>
+<p align="center">
+  <strong>⚡ +26% Accuracy vs. OpenAI Memory • 🚀 91% Faster • 💰 90% Fewer Tokens</strong>
+</p>
 
-This project demonstrates how to build an MCP server that enables AI agents to store, retrieve, and search memories using semantic search. It serves as a practical template for creating your own MCP servers, simply using Mem0 and a practical example.
+##  🔥 Research Highlights
+- **+26% Accuracy** over OpenAI Memory on the LOCOMO benchmark
+- **91% Faster Responses** than full-context, ensuring low-latency at scale
+- **90% Lower Token Usage** than full-context, cutting costs without compromise
+- [Read the full paper](https://mem0.ai/research)
 
-The implementation follows the best practices laid out by Anthropic for building MCP servers, allowing seamless integration with any MCP-compatible client.
+# Introduction
 
-## Features
+[Mem0](https://mem0.ai) ("mem-zero") enhances AI assistants and agents with an intelligent memory layer, enabling personalized AI interactions. It remembers user preferences, adapts to individual needs, and continuously learns over time—ideal for customer support chatbots, AI assistants, and autonomous systems.
 
-The server provides three essential memory management tools:
+### Key Features & Use Cases
 
-1. **`save_memory`**: Store any information in long-term memory with semantic indexing
-2. **`get_all_memories`**: Retrieve all stored memories for comprehensive context
-3. **`search_memories`**: Find relevant memories using semantic search
+**Core Capabilities:**
+- **Multi-Level Memory**: Seamlessly retains User, Session, and Agent state with adaptive personalization
+- **Developer-Friendly**: Intuitive API, cross-platform SDKs, and a fully managed service option
 
-## Prerequisites
+**Applications:**
+- **AI Assistants**: Consistent, context-rich conversations
+- **Customer Support**: Recall past tickets and user history for tailored help
+- **Healthcare**: Track patient preferences and history for personalized care
+- **Productivity & Gaming**: Adaptive workflows and environments based on user behavior
 
-- Python 3.12+
-- Supabase or any PostgreSQL database (for vector storage of memories)
-- API keys for your chosen LLM provider (OpenAI, OpenRouter, or Ollama)
-- Docker if running the MCP server as a container (recommended)
+## 🚀 Quickstart Guide <a name="quickstart"></a>
 
-## Installation
+Choose between our hosted platform or self-hosted package:
 
-### Using uv
+### Hosted Platform
 
-1. Install uv if you don't have it:
-   ```bash
-   pip install uv
-   ```
+Get up and running in minutes with automatic updates, analytics, and enterprise security.
 
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/coleam00/mcp-mem0.git
-   cd mcp-mem0
-   ```
+1. Sign up on [Mem0 Platform](https://app.mem0.ai)
+2. Embed the memory layer via SDK or API keys
 
-3. Install dependencies:
-   ```bash
-   uv pip install -e .
-   ```
+### Self-Hosted (Open Source)
 
-4. Create a `.env` file based on `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-
-5. Configure your environment variables in the `.env` file (see Configuration section)
-
-### Using Docker (Recommended)
-
-1. Build the Docker image:
-   ```bash
-   docker build -t mcp/mem0 --build-arg PORT=8050 .
-   ```
-
-2. Create a `.env` file based on `.env.example` and configure your environment variables
-
-## Configuration
-
-The following environment variables can be configured in your `.env` file:
-
-| Variable | Description | Example |
-|----------|-------------|----------|
-| `TRANSPORT` | Transport protocol (sse or stdio) | `sse` |
-| `HOST` | Host to bind to when using SSE transport | `0.0.0.0` |
-| `PORT` | Port to listen on when using SSE transport | `8050` |
-| `LLM_PROVIDER` | LLM provider (openai, openrouter, or ollama) | `openai` |
-| `LLM_BASE_URL` | Base URL for the LLM API | `https://api.openai.com/v1` |
-| `LLM_API_KEY` | API key for the LLM provider | `sk-...` |
-| `LLM_CHOICE` | LLM model to use | `gpt-4o-mini` |
-| `EMBEDDING_MODEL_CHOICE` | Embedding model to use | `text-embedding-3-small` |
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:port/db` |
-
-## Running the Server
-
-### Using uv
-
-#### SSE Transport
+Install the sdk via pip:
 
 ```bash
-# Set TRANSPORT=sse in .env then:
-uv run src/main.py
+pip install mem0ai
 ```
 
-The MCP server will essentially be run as an API endpoint that you can then connect to with config shown below.
-
-#### Stdio Transport
-
-With stdio, the MCP client iself can spin up the MCP server, so nothing to run at this point.
-
-### Using Docker
-
-#### SSE Transport
-
+Install sdk via npm:
 ```bash
-docker run --env-file .env -p:8050:8050 mcp/mem0
+npm install mem0ai
 ```
 
-The MCP server will essentially be run as an API endpoint within the container that you can then connect to with config shown below.
+### Basic Usage
 
-#### Stdio Transport
+Mem0 requires an LLM to function, with `gpt-4o-mini` from OpenAI as the default. However, it supports a variety of LLMs; for details, refer to our [Supported LLMs documentation](https://docs.mem0.ai/components/llms/overview).
 
-With stdio, the MCP client iself can spin up the MCP server container, so nothing to run at this point.
+First step is to instantiate the memory:
 
-## Integration with MCP Clients
+```python
+from openai import OpenAI
+from mem0 import Memory
 
-### SSE Configuration
+openai_client = OpenAI()
+memory = Memory()
 
-Once you have the server running with SSE transport, you can connect to it using this configuration:
+def chat_with_memories(message: str, user_id: str = "default_user") -> str:
+    # Retrieve relevant memories
+    relevant_memories = memory.search(query=message, user_id=user_id, limit=3)
+    memories_str = "\n".join(f"- {entry['memory']}" for entry in relevant_memories["results"])
 
-```json
-{
-  "mcpServers": {
-    "mem0": {
-      "transport": "sse",
-      "url": "http://localhost:8050/sse"
-    }
-  }
+    # Generate Assistant response
+    system_prompt = f"You are a helpful AI. Answer the question based on query and memories.\nUser Memories:\n{memories_str}"
+    messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": message}]
+    response = openai_client.chat.completions.create(model="gpt-4o-mini", messages=messages)
+    assistant_response = response.choices[0].message.content
+
+    # Create new memories from the conversation
+    messages.append({"role": "assistant", "content": assistant_response})
+    memory.add(messages, user_id=user_id)
+
+    return assistant_response
+
+def main():
+    print("Chat with AI (type 'exit' to quit)")
+    while True:
+        user_input = input("You: ").strip()
+        if user_input.lower() == 'exit':
+            print("Goodbye!")
+            break
+        print(f"AI: {chat_with_memories(user_input)}")
+
+if __name__ == "__main__":
+    main()
+```
+
+For detailed integration steps, see the [Quickstart](https://docs.mem0.ai/quickstart) and [API Reference](https://docs.mem0.ai/api-reference).
+
+## 🔗 Integrations & Demos
+
+- **ChatGPT with Memory**: Personalized chat powered by Mem0 ([Live Demo](https://mem0.dev/demo))
+- **Browser Extension**: Store memories across ChatGPT, Perplexity, and Claude ([Chrome Extension](https://chromewebstore.google.com/detail/onihkkbipkfeijkadecaafbgagkhglop?utm_source=item-share-cb))
+- **Langgraph Support**: Build a customer bot with Langgraph + Mem0 ([Guide](https://docs.mem0.ai/integrations/langgraph))
+- **CrewAI Integration**: Tailor CrewAI outputs with Mem0 ([Example](https://docs.mem0.ai/integrations/crewai))
+
+## 📚 Documentation & Support
+
+- Full docs: https://docs.mem0.ai
+- Community: [Discord](https://mem0.dev/DiG) · [Twitter](https://x.com/mem0ai)
+- Contact: founders@mem0.ai
+
+## Citation
+
+We now have a paper you can cite:
+
+```bibtex
+@article{mem0,
+  title={Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory},
+  author={Chhikara, Prateek and Khant, Dev and Aryan, Saket and Singh, Taranjeet and Yadav, Deshraj},
+  journal={arXiv preprint arXiv:2504.19413},
+  year={2025}
 }
 ```
 
-> **Note for Windsurf users**: Use `serverUrl` instead of `url` in your configuration:
-> ```json
-> {
->   "mcpServers": {
->     "mem0": {
->       "transport": "sse",
->       "serverUrl": "http://localhost:8050/sse"
->     }
->   }
-> }
-> ```
+## ⚖️ License
 
-> **Note for n8n users**: Use host.docker.internal instead of localhost since n8n has to reach outside of it's own container to the host machine:
-> 
-> So the full URL in the MCP node would be: http://host.docker.internal:8050/sse
-
-Make sure to update the port if you are using a value other than the default 8050.
-
-### Python with Stdio Configuration
-
-Add this server to your MCP configuration for Claude Desktop, Windsurf, or any other MCP client:
-
-```json
-{
-  "mcpServers": {
-    "mem0": {
-      "command": "your/path/to/mcp-mem0/.venv/Scripts/python.exe",
-      "args": ["your/path/to/mcp-mem0/src/main.py"],
-      "env": {
-        "TRANSPORT": "stdio",
-        "LLM_PROVIDER": "openai",
-        "LLM_BASE_URL": "https://api.openai.com/v1",
-        "LLM_API_KEY": "YOUR-API-KEY",
-        "LLM_CHOICE": "gpt-4o-mini",
-        "EMBEDDING_MODEL_CHOICE": "text-embedding-3-small",
-        "DATABASE_URL": "YOUR-DATABASE-URL"
-      }
-    }
-  }
-}
-```
-
-### Docker with Stdio Configuration
-
-```json
-{
-  "mcpServers": {
-    "mem0": {
-      "command": "docker",
-      "args": ["run", "--rm", "-i", 
-               "-e", "TRANSPORT", 
-               "-e", "LLM_PROVIDER", 
-               "-e", "LLM_BASE_URL", 
-               "-e", "LLM_API_KEY", 
-               "-e", "LLM_CHOICE", 
-               "-e", "EMBEDDING_MODEL_CHOICE", 
-               "-e", "DATABASE_URL", 
-               "mcp/mem0"],
-      "env": {
-        "TRANSPORT": "stdio",
-        "LLM_PROVIDER": "openai",
-        "LLM_BASE_URL": "https://api.openai.com/v1",
-        "LLM_API_KEY": "YOUR-API-KEY",
-        "LLM_CHOICE": "gpt-4o-mini",
-        "EMBEDDING_MODEL_CHOICE": "text-embedding-3-small",
-        "DATABASE_URL": "YOUR-DATABASE-URL"
-      }
-    }
-  }
-}
-```
-
-## Building Your Own Server
-
-This template provides a foundation for building more complex MCP servers. To build your own:
-
-1. Add your own tools by creating methods with the `@mcp.tool()` decorator
-2. Create your own lifespan function to add your own dependencies (clients, database connections, etc.)
-3. Modify the `utils.py` file for any helper functions you need for your MCP server
-4. Feel free to add prompts and resources as well  with `@mcp.resource()` and `@mcp.prompt()`
+Apache 2.0 — see the [LICENSE](LICENSE) file for details.
